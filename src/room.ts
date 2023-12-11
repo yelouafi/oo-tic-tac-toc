@@ -1,75 +1,72 @@
 import { GameRoom } from "@oogg/game-server";
-import { State, type ClientMsg, type RoomMsg, TPresent } from "./types";
+import { State, type ClientMsg, type RoomMsg, TPresent, GameStatus } from "./types";
+import { TicTacToeGame } from "./game";
 
 export class MyRoom extends GameRoom<State, ClientMsg, RoomMsg> {
-
-  tickRate = 30;
-
-  state = new State();
-
-  // simulatedLatency = 5000;
-
-  static async onAuth() {
-    // throw new Error("Not Authorized");
-  }
-
-  async onPreload() {
-    // Server side messages
-    // setInterval(() => {
-    //   this.broadcast("tick");
-    // }, 1000);
-  }
-
-  onRequestPrestart() {
     //
-    // this.prestart();
-  }
+    tickRate = 30;
 
-  onRequestStart() {
-    //
-    // this.start();
-  }
+    game = new TicTacToeGame();
 
-  onJoin(player) {
-    //
-    const present = new TPresent();
-    present.id = player.sessionId;
-    present.position.set(0, 0, 0);
-    this.state.presents.push(present);
+    state = this.game.state;
 
-    this.start();
-  }
-
-  onLeave(player) {
-    const idx = this.state.presents.findIndex((p) => p.id == player.sessionId);
-
-    if (idx >= 0) {
-      this.state.presents.splice(idx, 1);
+    constructor(ctx) {
+        super(ctx);
+        this.state = this.game.state;
     }
 
-    if (this.state.presents.length < 2) {
-      this.stop();
+    // simulatedLatency = 5000;
+
+    static async onAuth() {
+        // throw new Error("Not Authorized");
     }
-  }
 
-  onMessage(message: ClientMsg, player): void {
-    //
-    if (message.type == "player-state") {
-      const present = this.state.presents.find((p) => p.id == player.sessionId);
-
-      if (present) {
-        present.position.copy(message.position);
-        present.rotation.copy(message.rotation);
-        present.animation = message.animation;
-      }
+    async onPreload() {
+        // Server side messages
+        // setInterval(() => {
+        //   this.broadcast("tick");
+        // }, 1000);
     }
-  }
 
-  async onReady() {
-    // this.state.cubes = this.simulation.state.cubes;
-  }
+    onRequestPrestart() {
+        //
+        // this.prestart();
+    }
 
-  onUpdate(dt: number) {
-    // this.state.cubes = this.simulation.state.cubes;
-  }
+    onRequestStart() {
+        //
+        // this.start();
+    }
+
+    onJoin(player) {
+        //
+        this.game.addPlayer(player.sessionId);
+
+        this.start()
+    }
+
+    onLeave(player) {
+        //
+        this.game.removePlayer(player.sessionId);
+    }
+
+    onMessage(message: ClientMsg, player): void {
+        //
+        if (message.type == "player-state") {
+            
+            this.game.updatePresent(player.sessionId, message.position, message.rotation, message.animation);
+        }
+        else if (message.type == "move") {
+            this.game.markCell(message.cell, player.sessionId);
+        }
+    }
+
+    async onReady() {
+        
+    }
+
+    onUpdate(dt: number) {
+        //
+        this.game.update(dt);
+    }
 }
