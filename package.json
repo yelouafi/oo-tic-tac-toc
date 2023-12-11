@@ -1,0 +1,20 @@
+{
+  "name": "oo-game-server-starter",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "partykit dev",
+    "deploy": "partykit deploy"
+  },
+  "dependencies": {
+    "@colyseus/schema": "^2.0.4",
+    "@oogg/game-server": "^0.0.1-alpha.1",
+    "@oogg/rapier3d-compat-cfworker": "^0.11.2-p1",
+    "partysocket": "0.0.17",
+    "three": "github:oncyberio/three.js#b34c7f8717d8e2ad760dad456a735b3b5347df53"
+  },
+  "devDependencies": {
+    "partykit": "0.0.44",
+    "typescript": "^5.3.3"
+  }
+}

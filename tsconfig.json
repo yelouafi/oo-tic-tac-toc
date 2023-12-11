@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    /* Modules */
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    /* Interop Constraints */
+    // "isolatedModules": true,    /* Ensure that each file can be safely transpiled without relying on other imports. */
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Type Checking */
+    "strict": false /* Enable all strict type-checking options. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,    
+  }
+}

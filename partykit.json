@@ -1,0 +1,5 @@
+{
+  "name": "oo-game-server-starter",
+  "main": "src/server.ts",
+  "compatibilityDate": "2023-12-11"
+}
