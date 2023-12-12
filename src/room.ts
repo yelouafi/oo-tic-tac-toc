@@ -67,6 +67,10 @@ export class MyRoom extends GameRoom<State, ClientMsg, RoomMsg> {
 
     onUpdate(dt: number) {
         //
+        if (this.state["$changes"].changes.size > 0) {
+            this.state.snapshotId = Math.random().toString(36).substring(2, 7);
+            this.state.timestamp = Date.now();
+        }
         this.game.update(dt);
     }
 }

@@ -37,6 +37,8 @@ export class TPresent extends Schema {
 }
 
 export class State extends Schema {
+  @type("string") snapshotId: string = null;
+  @type("number") timestamp: number = 0;
   @type([TPresent]) presents: TPresent[] = new ArraySchema<TPresent>();
   @type(["string"]) board = new ArraySchema<BoardCell>(...initBoard);
   @type("string") currentTurn: Turn = null;
